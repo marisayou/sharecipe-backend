@@ -4,4 +4,5 @@ class User < ApplicationRecord
     has_many :like_recipes, :through => :likes, :source => :recipes
     has_many :comments
     has_many :comment_recipes, :through => :comments, :source => :recipes
+    has_secure_password
 end
