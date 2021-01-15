@@ -4,8 +4,7 @@ class UsersController < ApplicationController
         user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
             token = encode_token(user_id: user.id)
-            render json: {user: user, token: token}
-            # render json: {user: UserSerializer.new(user), token: token}
+            render json: {user: UserSerializer.new(user), token: token}
         else
             render json: {error: "Incorrect username or password."}
         end
@@ -29,8 +28,7 @@ class UsersController < ApplicationController
         user = User.new(user_params)
         if user.save
             token = encode_token({user_id: user.id})
-            render json: {user: user, token: token}
-            # render json: {user: UserSerialize.new(user), token: token}
+            render json: {user: UserSerialize.new(user), token: token}
         else
             render json: {error: "This username is taken. Please try again."}
         end
