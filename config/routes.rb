@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :recipe_ingredients
+  resources :recipe_tags
+  resources :tags
   resources :comments
   resources :likes
-  resources :ingredients
   resources :recipes
   resources :users
 

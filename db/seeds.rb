@@ -5,3 +5,22 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+tags = [
+    "breakfast", 
+    "lunch", 
+    "dinner", 
+    "dessert", 
+    "appetizer", 
+    "entree", 
+    "side", 
+    "vegetarian", 
+    "vegan", 
+    "glutenfree", 
+    "lowcarb",
+    "keto"
+]
+
+tags.map do |tag|
+    Tag.create(name: tag)
+end
