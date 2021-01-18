@@ -9,4 +9,14 @@ class TagsController < ApplicationController
         tag = Tag.find(params[:id])
         render json: tag
     end
+
+    def create
+        tag = Tag.find_or_create_by(tag_params)
+        render json: tag
+    end
+
+    private
+    def tag_params
+        params.require(:tag).permit(:name)
+    end
 end
