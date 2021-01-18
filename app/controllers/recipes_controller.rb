@@ -15,6 +15,12 @@ class RecipesController < ApplicationController
         render json: recipe
     end
 
+    def update
+        recipe = Recipe.find(params[:id])
+        recipe.update(recipe: params[:recipe].to_json)
+        render json: recipe
+    end
+
     private
     def recipe_params
         params.permit(:user_id, :recipe)

@@ -1,13 +1,13 @@
 class RecipeSerializer < ActiveModel::Serializer
-    attributes :id, :user, :recipe
+    attributes :id, :recipe
     
-    def user
-        user = self.object.user
-        return {
-            id: user.id,
-            name: user.name,
-            username: user.username
-        }
-    end
+    # def user
+    #     user = self.object.user
+    #     return {
+    #         id: user.id,
+    #         name: user.name,
+    #         username: user.username
+    #     }
+    # end
   end
   
