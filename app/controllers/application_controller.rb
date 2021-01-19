@@ -26,12 +26,4 @@ class ApplicationController < ActionController::API
             current_user = User.find(user_id)
         end
     end
-
-    # def logged_in?
-    #     !!current_user
-    # end
-
-    # def authorized
-    #     render json: {error: "Log in required"}, status: :unauthorized unless logged_in?
-    # end
 end
