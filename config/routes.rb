@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   delete "/likes", to: "likes#destroy"
 
   get "/users/:user_id/like_recipes", to: "recipes#like_recipes"
+  get "/tags/:tag_name/tag_recipes", to: "recipes#tag_recipes"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
