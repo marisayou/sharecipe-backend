@@ -1,5 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
-    attributes :id, :recipe, :user, :tags
+    attributes :id, :recipe, :user, :tags, :comments
 
     def user
         user = self.object.user
@@ -13,6 +13,12 @@ class RecipeSerializer < ActiveModel::Serializer
     def tags
       self.object.tags.map do |tag|
         { id: tag.id, name: tag.name }
+      end
+    end
+
+    def comments
+      self.object.comments.map do |comment|
+        { id: comment.id, text: comment.text, user: comment.user.username }
       end
     end
   end
