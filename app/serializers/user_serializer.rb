@@ -1,8 +1,11 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :username, :recipes, :like_recipes, :like_count
+  attributes :id, :name, :username, :recipes, :favorites
   has_many :recipes
 
-  def like_count
-    self.object.like_recipes.count
+  def favorites
+    self.object.like_recipes.map do |recipe|
+      recipe.id
+    end
   end
+
 end

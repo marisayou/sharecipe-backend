@@ -26,4 +26,5 @@ class ApplicationController < ActionController::API
             current_user = User.find(user_id)
         end
     end
+    
 end

@@ -8,5 +8,9 @@ Rails.application.routes.draw do
 
   post "/login", to: "users#login"
   get "/get_user", to: "users#get_user"
+
+  delete "/likes", to: "likes#destroy"
+
+  get "/users/:user_id/like_recipes", to: "recipes#like_recipes"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -10,10 +10,16 @@ class RecipesController < ApplicationController
         render json: recipes
     end
 
+    def like_recipes
+        # byebug
+        user = User.find(params[:user_id])
+        
+        render json: user.like_recipes
+    end
+
     def create
         # create recipe
         recipe = Recipe.create(user_id: params[:user_id], recipe: params[:recipe].to_json)
-        
         # find or create tags, then join with recipe by creating recipe_tags
         params[:tags].each do |t|
             tag = Tag.find_or_create_by(name: t)
