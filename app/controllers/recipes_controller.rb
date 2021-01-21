@@ -1,17 +1,16 @@
 class RecipesController < ApplicationController
 
-    # def show 
-    #     recipe = Recipe.find(params[:id])
-    #     render json: recipe
-    # end
-
     def index
         recipes = Recipe.all
         render json: recipes
     end
 
+    def newest
+        recipes = Recipe.select_newest
+        render json: recipes
+    end
+
     def like_recipes
-        # byebug
         user = User.find(params[:user_id])
         render json: user.like_recipes
     end
@@ -20,6 +19,11 @@ class RecipesController < ApplicationController
         tag = Tag.find_by(name: params[:tag_name])
         render json: tag.recipes
     end
+
+    # def search_recipes
+    #     recipes = Recipe.query_recipes(params[:search_term])
+    #     render json: recipes
+    # end
 
     def create
         # create recipe

@@ -1,12 +1,7 @@
 class TagsController < ApplicationController
 
-    def index
-        tags = Tag.all
+    def search_tags
+        tags = Tag.query_tags(params[:search_term])
         render json: tags
     end
-
-    # def show
-    #     tag = Tag.find(params[:id])
-    #     render json: tag
-    # end
 end

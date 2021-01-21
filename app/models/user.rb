@@ -5,4 +5,6 @@ class User < ApplicationRecord
     has_many :comments, dependent: :destroy
     has_many :comment_recipes, :through => :comments, :source => :recipe
     has_secure_password
+
+    validates :username, uniqueness: true
 end
