@@ -10,6 +10,11 @@ class RecipesController < ApplicationController
         render json: recipes
     end
 
+    def user_recipes
+        user = User.find(params[:user_id])
+        render json: user.recipes
+    end
+
     def like_recipes
         user = User.find(params[:user_id])
         render json: user.like_recipes

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   post "/login", to: "users#login"
   get "/get_user", to: "users#get_user"
+  get "/users/:user_id/recipes", to: "recipes#user_recipes"
 
   delete "/likes", to: "likes#destroy"
 
