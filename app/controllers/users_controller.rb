@@ -40,6 +40,39 @@ class UsersController < ApplicationController
         render json: {user: UserSerializer.new(user)}
     end
 
+    def destroy
+        user = User.find(params[:id])
+
+        # get array of tags associated with the user's recipes
+        tags = []
+        user.recipes.each do |recipe|
+            recipe.tags.each do |tag|
+                tags << tag
+            end
+        end
+
+        # destroy searches of the user's recipes
+        recipe_ids = user.recipes.map {|recipe| recipe.id}
+        Search.all.each do |search|
+            if (search.resource_type == "recipe" && recipe_ids.include?(search.resource_id))
+                search.destroy
+            end
+        end
+
+        # delete user and all dependent recipes, likes, and comments
+        user.destroy
+
+        # delete all tags that no longer have any associated recipes
+        tags.uniq.each do |tag|
+            if (tag.recipe_tags.length == 0)
+                search = Search.find_by(resource_type: "tag", resource_id: tag.id)
+                search.destroy
+                tag.destroy
+            end
+        end
+
+    end
+
     private
     def user_params
         params.permit(:name, :username, :password)
