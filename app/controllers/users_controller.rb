@@ -21,7 +21,11 @@ class UsersController < ApplicationController
 
     def show
         user = User.find(params[:id])
-        render json: user
+        recipes = user.recipes
+        render json: {
+            user: UserSerializer.new(user), 
+            recipes: recipes.map {|recipe| RecipeSerializer.new(recipe)}
+        }
     end
 
     def create
