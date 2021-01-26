@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :subscriptions, only: [:create]
   resources :comments
   resources :likes
   resources :recipes, except: [:show]
@@ -23,6 +24,8 @@ Rails.application.routes.draw do
   get "/searches/:search_term", to: "searches#get_search_results"
 
   get "/recipes/newest", to: "recipes#newest"
+
+  delete "/subscriptions", to: "subscriptions#destroy"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

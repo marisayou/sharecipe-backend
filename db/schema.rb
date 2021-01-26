@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_212138) do
+ActiveRecord::Schema.define(version: 2021_01_25_223710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,15 @@ ActiveRecord::Schema.define(version: 2021_01_22_212138) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "subscribed_from_id", null: false
+    t.bigint "subscribed_to_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subscribed_from_id"], name: "index_subscriptions_on_subscribed_from_id"
+    t.index ["subscribed_to_id"], name: "index_subscriptions_on_subscribed_to_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -88,4 +97,6 @@ ActiveRecord::Schema.define(version: 2021_01_22_212138) do
   add_foreign_key "recipe_tags", "recipes"
   add_foreign_key "recipe_tags", "tags"
   add_foreign_key "recipes", "users"
+  add_foreign_key "subscriptions", "users", column: "subscribed_from_id"
+  add_foreign_key "subscriptions", "users", column: "subscribed_to_id"
 end
