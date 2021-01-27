@@ -1,5 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
-    attributes :id, :recipe, :user, :tags, :comments
+    attributes :id, :recipe, :user, :tags, :comments, :image_url
 
     def user
         user = self.object.user
@@ -21,5 +21,16 @@ class RecipeSerializer < ActiveModel::Serializer
         { id: comment.id, text: comment.text, user: comment.user.username }
       end
     end
+    
+    def image_url
+      self.object.image ? self.object.get_image_url : ""
+    end
+    # def serialize_recipe(recipe)
+    #   {
+    #     id: recipe.id,
+    #     image_url: recipe.get_image_url
+        
+    #   }
+    # end
   end
   

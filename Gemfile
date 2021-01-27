@@ -46,3 +46,6 @@ gem 'active_model_serializers'
 
 # JWT
 gem 'jwt', '~> 2.2'
+
+# Azure 
+gem 'azure-storage', require: false

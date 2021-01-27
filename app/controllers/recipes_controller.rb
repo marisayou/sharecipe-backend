@@ -27,17 +27,17 @@ class RecipesController < ApplicationController
 
     def create
         # get title, tags, and ingredients on the new recipe
-        title = params[:recipe][:title].downcase
-        tags = params[:tags]
+        title = JSON.parse(params[:recipe])["title"].downcase
+        tags = params[:tags].split(" ")
         # unique array of ingredient names that are not included in the recipe's title
-        ingredients = params[:recipe][:ingredients].map do |ing|
-             ing[:ingredient].downcase
+        ingredients = JSON.parse(params[:recipe])["ingredients"].map do |ing|
+             ing["ingredient"].downcase
         end.select do |name| 
             !title.include?(name)
         end.uniq
 
         # create recipe
-        recipe = Recipe.create(user_id: params[:user_id], recipe: params[:recipe].to_json)
+        recipe = Recipe.create(user_id: params[:user_id], recipe: JSON.parse(params[:recipe]), image: params[:image])
 
         # create Search entry for title
         Search.create(search_term: title, resource_type: "recipe", resource_id: recipe.id)
@@ -62,10 +62,10 @@ class RecipesController < ApplicationController
     def update
         # find old recipe
         recipe = Recipe.find(params[:id])
-        old_recipe = JSON.parse(recipe.recipe)
+        old_recipe = recipe.recipe
         
         # update search by title
-        new_title = params[:recipe][:title]
+        new_title = JSON.parse(params[:recipe])["title"]
         if old_recipe["title"] != new_title
             title_search = Search.find_by(search_term: old_recipe["title"], resource_type: "recipe", resource_id: recipe.id)
             title_search.update(search_term: new_title)
@@ -77,7 +77,7 @@ class RecipesController < ApplicationController
         old_ingredients = old_recipe["ingredients"].map do |ing|
             ing["ingredient"]
         end
-        new_ingredients = params[:recipe][:ingredients].map do |ing|
+        new_ingredients = JSON.parse(params[:recipe])["ingredients"].map do |ing|
             ing["ingredient"]
         end
         
@@ -97,7 +97,7 @@ class RecipesController < ApplicationController
         # remove recipe_tags of any tags from the old recipe that are not in the new recipe
         # create new tags and recipe_tags for tags that have been added
         old_tags = recipe.tags.map {|t| t.name}
-        new_tags = params[:tags]
+        new_tags = params[:tags].split(" ")
         remove_tags = old_tags - new_tags
         
         remove_tags.each do |t|
@@ -123,11 +123,14 @@ class RecipesController < ApplicationController
             # find or create Search entry for each tag
             Search.find_or_create_by(search_term: t.downcase, resource_type: "tag", resource_id: tag.id)
         end
-
+        
         # update recipe
-        recipe.update(recipe: params[:recipe].to_json)
+        params[:image] != "undefined" ?
+        recipe.update(recipe: JSON.parse(params[:recipe]), image: params[:image]) :
+        recipe.update(recipe: JSON.parse(params[:recipe]))
 
-        render json: Recipe.find(params[:id])
+
+        render json: recipe
     end
 
     def destroy
@@ -149,4 +152,9 @@ class RecipesController < ApplicationController
 
         recipe.destroy
     end
+end
+
+private 
+def recipe_params
+
 end
