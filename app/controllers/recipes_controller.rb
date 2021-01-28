@@ -67,8 +67,8 @@ class RecipesController < ApplicationController
         # update search by title
         new_title = JSON.parse(params[:recipe])["title"]
         if old_recipe["title"] != new_title
-            title_search = Search.find_by(search_term: old_recipe["title"], resource_type: "recipe", resource_id: recipe.id)
-            title_search.update(search_term: new_title)
+            title_search = Search.find_by(search_term: old_recipe["title"].downcase, resource_type: "recipe", resource_id: recipe.id)
+            title_search.update(search_term: new_title.downcase)
         end
 
         # update searches by ingredient
@@ -129,8 +129,7 @@ class RecipesController < ApplicationController
         recipe.update(recipe: JSON.parse(params[:recipe]), image: params[:image]) :
         recipe.update(recipe: JSON.parse(params[:recipe]))
 
-
-        render json: recipe
+        render json: Recipe.find(recipe.id)
     end
 
     def destroy

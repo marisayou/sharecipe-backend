@@ -15,9 +15,16 @@ class SearchesController < ApplicationController
             Tag.find(result[:resource_id])
         end
 
+        # find users
+        user_results = Search.query_searches(search_term, "user")
+        users = user_results.map do |result|
+            User.find(result[:resource_id])
+        end
+
         render json: {
             recipes: recipes.map {|recipe| RecipeSerializer.new(recipe)},
-            tags: tags.map {|tag| TagSerializer.new(tag)}
+            tags: tags.map {|tag| TagSerializer.new(tag)},
+            users: users.map {|user| UserSerializer.new(user)}
         }
     end
 end

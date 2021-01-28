@@ -31,6 +31,8 @@ class UsersController < ApplicationController
     def create
         user = User.new(user_params)
         if user.save
+
+            Search.create(search_term: user.username, resource_type: "user", resource_id: user.id)
             token = encode_token({user_id: user.id})
             render json: {user: UserSerializer.new(user), token: token}
         else
@@ -61,6 +63,12 @@ class UsersController < ApplicationController
             if (search.resource_type == "recipe" && recipe_ids.include?(search.resource_id))
                 search.destroy
             end
+        end
+
+        # destroy searches of the user
+        user_search = Search.find_by(resource_type: "user", resource_id: user.id)
+        if (!! user_search)
+            user_search.destroy
         end
 
         # delete user and all dependent recipes, likes, and comments
