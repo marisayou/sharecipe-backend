@@ -5,8 +5,8 @@ class RecipesController < ApplicationController
         render json: recipes
     end
 
-    def newest
-        recipes = Recipe.select_newest
+    def featured
+        recipes = Recipe.select_featured
         render json: recipes
     end
 
