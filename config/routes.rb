@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   # get search results
   get "/searches/:search_term", to: "searches#get_search_results"
 
-  get "/recipes/newest", to: "recipes#newest"
+  get "/recipes/featured", to: "recipes#featured"
 
   delete "/subscriptions", to: "subscriptions#destroy"
 

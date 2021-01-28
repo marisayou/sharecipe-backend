@@ -11,12 +11,13 @@ class Recipe < ApplicationRecord
 
   has_one_attached :image
 
+  default_scope { order(created_at: :desc) }
+
   def get_image_url
     url_for(self.image)
   end
 
-  def self.select_newest
-    ordered_recipes = self.order("created_at DESC")
-    ordered_recipes.slice(0, 5)
+  def self.select_featured
+    self.all.slice(0, 5)
   end
 end
